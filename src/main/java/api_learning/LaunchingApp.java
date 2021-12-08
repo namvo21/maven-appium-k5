@@ -25,11 +25,10 @@ public class LaunchingApp {
             //Send the desireCaps into Appium Server
             URL appiumServer = new URL("http://127.0.0.1:4723/wd/hub");
             appiumDriver = new AndroidDriver<MobileElement>(appiumServer, desiredCapabilities);
-            appiumDriver.quit();
+            //appiumDriver.quit();
         }catch (Exception ex){
             ex.printStackTrace();
         }
         // Init and create
-
     }
 }
