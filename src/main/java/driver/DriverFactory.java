@@ -54,6 +54,6 @@ public class DriverFactory {
 
         //Send the desireCaps into Appium Server
         androidDriver = new AndroidDriver<MobileElement>(appiumServer.getUrl(), desiredCapabilities);
-        //androidDriver.manage().timeouts().implicitlyWait(3L, TimeUnit.SECONDS);
+        androidDriver.manage().timeouts().implicitlyWait(3L, TimeUnit.SECONDS);
     }
 }

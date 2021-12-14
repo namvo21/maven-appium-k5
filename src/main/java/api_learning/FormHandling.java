@@ -23,7 +23,7 @@ public class FormHandling {
             usernameElement.sendKeys("teo");
 
             // Input password
-            passwordElement.sendKeys("123456");
+            passwordElement.sendKeys("12345678910");
 
             // Click on Login Button
             loginButtonElement.click();
@@ -36,7 +36,7 @@ public class FormHandling {
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            DriverFactory.stopAppiumServer();
+            androidDriver.quit();
         }
     }
 }
