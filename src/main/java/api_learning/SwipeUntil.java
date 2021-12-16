@@ -6,19 +6,24 @@ import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
-public class SwipeVertically {
-    public static void main(String[] args) throws InterruptedException {
+public class SwipeUntil {
+    public static void main(String[] args) {
         DriverFactory.startAppiumServer();
         AndroidDriver<MobileElement> androidDriver = DriverFactory.getAndroidDriver();
+        MobileElement swipeLabel = androidDriver.findElementByAccessibilityId("Swipe");
+        swipeLabel.click();
 
-        MobileElement formLabel = androidDriver.findElementByAccessibilityId("Forms");
-        formLabel.click();
+        // Avoid screen transition
+        WebDriverWait webDriverWait = new WebDriverWait(androidDriver, 10L);
+        webDriverWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@text='Swipe horizontal']")));
 
         // Get mobile size
         Dimension windowSize = androidDriver.manage().window().getSize();
@@ -29,32 +34,34 @@ public class SwipeVertically {
         int xStartPoint = 50 * screenWidth / 100;
         int xEndPoint = xStartPoint;
 
-        int yStartPoint = 70 * screenHeight / 100;
+        int yStartPoint = 50 * screenHeight / 100;
         int yEndPoint = 10 * screenHeight / 100;
 
         // Convert to PointOption - Coordinates
         PointOption startPoint = new PointOption().withCoordinates(xStartPoint, yStartPoint);
         PointOption endPoint = new PointOption().withCoordinates(xEndPoint, yEndPoint);
 
-        // Avoid screen transition
-        WebDriverWait webDriverWait = new WebDriverWait(androidDriver, 5L);
-        webDriverWait.until(ExpectedConditions.visibilityOf(androidDriver.findElementByAccessibilityId("switch")));
-
         // Perform Actions
         // press -> move up -> release
         TouchAction touchAction = new TouchAction(androidDriver);
-        touchAction
-                .press(startPoint)
-                .waitAction(new WaitOptions().withDuration(Duration.ofSeconds(2)))
-                .moveTo(endPoint)
-                .release()
-                .perform();
+        final int MAX_SWIPE_TIME = 10;
+        int swipeTime = 0;
 
-        Thread.sleep(3000);
+        while(swipeTime < MAX_SWIPE_TIME){
+            List<MobileElement> matchedElems = androidDriver.findElementsByXPath("//*[@text='You found me!!!']");
+            if(!matchedElems.isEmpty()) break;
 
-        // Find Active button
-        MobileElement activeButtonElems = androidDriver.findElementByAccessibilityId("button-Active");
-        // Click on Active button
-        activeButtonElems.click();
+            touchAction
+                    .longPress(startPoint)
+                    .moveTo(endPoint)
+                    .release()
+                    .perform();
+
+            swipeTime++;
+        }
+
+        if(swipeTime == MAX_SWIPE_TIME){
+            throw new RuntimeException("Item not found");
+        }
     }
 }
