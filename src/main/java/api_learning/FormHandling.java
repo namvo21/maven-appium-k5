@@ -14,7 +14,7 @@ public class FormHandling {
             MobileElement loginLabelElement = androidDriver.findElementByAccessibilityId("Login");
             loginLabelElement.click();
 
-            //Finding elements
+            //Finding elements | Extendable, Maintainable, Reusable --> Reliable
             MobileElement usernameElement = androidDriver.findElementByAccessibilityId("input-email");
             MobileElement passwordElement = androidDriver.findElementByAccessibilityId("input-password");
             MobileElement loginButtonElement = androidDriver.findElementByAccessibilityId("button-LOGIN");
