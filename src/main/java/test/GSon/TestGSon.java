@@ -33,7 +33,7 @@ public class TestGSon {
         //    System.out.println(cred.getJob().getPosition());
         //}
 
-        /*String jsonFilePath = "/src/main/java/test/GSon/LoginCred.json";
+        /*String jsonFilePath = "/src/main/java/test/GSon/InvalidLoginCred.json";
         LoginCred[] loginCreds = DataObjectBuilder.buildDataObject(jsonFilePath,LoginCred[].class);
 
         for (LoginCred loginCred : loginCreds) {

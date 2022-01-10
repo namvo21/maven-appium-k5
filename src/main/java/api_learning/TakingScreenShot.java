@@ -28,7 +28,7 @@ public class TakingScreenShot {
 
             // Taking screenshot | Whole screen
             File base64ScreenshotData = androidDriver.getScreenshotAs(OutputType.FILE);
-            String fileLocation = System.getProperty("user.dir").concat("/srceenshots/").concat("LoginForm.png");
+            String fileLocation = System.getProperty("user.dir").concat("/screenshots/").concat("LoginForm.png");
             FileUtils.copyFile(base64ScreenshotData, new File(fileLocation));
 
             // Taking screenshot on an element

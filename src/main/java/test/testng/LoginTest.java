@@ -1,12 +1,15 @@
-package test;
+package test.testng;
 
 import driver.DriverFactory;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import models.pages.LoginPage;
+import org.testng.annotations.Test;
 
-public class LoginFormTest {
-    public static void main(String[] args) {
+public class LoginTest {
+
+    @Test
+    public void loginWithValidCreds() {
         DriverFactory.startAppiumServer();
         AndroidDriver<MobileElement> androidDriver = DriverFactory.getAndroidDriver();
 
@@ -20,5 +23,10 @@ public class LoginFormTest {
         } finally {
             androidDriver.quit();
         }
+    }
+
+    @Test
+    public void doSth(){
+        System.out.println("Do Sth");
     }
 }
