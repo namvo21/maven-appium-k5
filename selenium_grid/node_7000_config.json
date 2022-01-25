@@ -1,0 +1,25 @@
+{
+  "capabilities": [
+    {
+      "version": "11",
+      "maxInstances": "1",
+      "platform": "ANDROID",
+      "deviceName": "emulator-5554",
+      "udid": "emulator-5554"
+    }
+  ],
+  "configuration": {
+    "cleanUpCycle": 2000,
+    "timeout": 30000,
+    "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+    "url": "http://169.254.27.166:7000/wd/hub",
+    "host": "http://169.254.27.166",
+    "port": 7000,
+    "maxSession": 1,
+    "register": true,
+    "registerCycle": 5000,
+    "hubPort": 4444,
+    "hubHost": "http://169.254.27.166",
+    "hubProtocol": "http"
+  }
+}

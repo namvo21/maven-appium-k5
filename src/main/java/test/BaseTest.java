@@ -65,6 +65,9 @@ public class BaseTest {
         if(appiumDriver == null){
             appiumDriver = driverThread.get().getAndroidDriver(udid, systemPort);
         }
+        if(appiumDriver == null){
+            throw new RuntimeException("[ERR] Cannot establish a connection!!!");
+        }
         return appiumDriver;
     }
 

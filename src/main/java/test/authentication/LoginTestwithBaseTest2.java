@@ -21,6 +21,6 @@ public class LoginTestwithBaseTest2 extends BaseTest {
 
         LoginFlow loginFlow = new LoginFlow(androidDriver);
         loginFlow.setData(loginCredData).login().verifyLogin();
-        Assert.fail();
+        //Assert.fail();
     }
 }

@@ -1,0 +1,25 @@
+{
+  "capabilities": [
+    {
+      "version": "9",
+      "maxInstances": "1",
+      "platform": "ANDROID",
+      "deviceName": "Galaxy Note8",
+      "udid": "ce081718bae29a2b047e"
+    }
+  ],
+  "configuration": {
+    "cleanUpCycle": 2000,
+    "timeout": 30000,
+    "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+    "url": "http://169.254.27.166:6000/wd/hub",
+    "host": "http://169.254.27.166",
+    "port": 6000,
+    "maxSession": 1,
+    "register": true,
+    "registerCycle": 5000,
+    "hubPort": 4444,
+    "hubHost": "http://169.254.27.166",
+    "hubProtocol": "http"
+  }
+}

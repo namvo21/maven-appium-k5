@@ -24,13 +24,13 @@ public class LoginTestwithBaseTest1 extends BaseTest {
 
         LoginFlow loginFlow = new LoginFlow(androidDriver);
         loginFlow.setData(loginCredData).login().verifyLogin();
-        Assert.fail();
+        //Assert.fail();
     }
 
     @Test
     public void testMethod02(){
         LoginPage loginPage = new LoginPage(getAndroidDriver());
         loginPage.bottomNavigationComponent().clickOnLoginLabel();
-        Assert.fail();
+        //Assert.fail();
     }
 }
