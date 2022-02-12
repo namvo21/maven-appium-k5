@@ -3,7 +3,6 @@ package test;
 import driver.DriverFactoryEx;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.testng.ITestResult;
@@ -15,34 +14,29 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import io.qameta.allure.Allure;
+import org.testng.annotations.Optional;
 
 public class BaseTest {
 
-    private DriverFactoryEx driverFactory;
     private AppiumDriver<MobileElement> appiumDriver;
 
     private final List<DriverFactoryEx> driverThreadPool = Collections.synchronizedList(new ArrayList<>());
     private ThreadLocal<DriverFactoryEx> driverThread;
+
     private String udid;
     private String systemPort;
+    private String platformName;
+    private String platformVersion;
 
-    /*@BeforeClass(alwaysRun = true)
-    public void beforeClass(){
-        driverFactory = new DriverFactoryEx();
-    }*/
-
-    /*@AfterClass(alwaysRun = true)
-    public void afterClass(){
-
-        driverFactory.quitAppiumSession();
-    }*/
-
-    @BeforeTest(alwaysRun = true, description = "Init all appium session")
-    @Parameters({"udid", "systemPort"})
-    public void beforeTest(String udid, String systemPort){
+    @BeforeTest(alwaysRun = true, description = "Init all appium sessions")
+    @Parameters({"udid", "systemPort", "platformName", "platformVersion"})
+    public void beforeTest(String udid, String systemPort, String platformName, @Optional("platformVersion") String platformVersion){
         this.udid = udid;
         this.systemPort = systemPort;
-        driverThread = ThreadLocal.withInitial(() ->{
+        this.platformName = platformName;
+        this.platformVersion = platformVersion;
+        driverThread = ThreadLocal.withInitial(() -> {
             DriverFactoryEx driverThread = new DriverFactoryEx();
             driverThreadPool.add(driverThread);
             return driverThread;
@@ -54,19 +48,12 @@ public class BaseTest {
         driverThread.get().quitAppiumSession();
     }
 
-    /*protected AppiumDriver<MobileElement> getAndroidDriver(){
-        if(appiumDriver == null){
-            appiumDriver = driverFactory.getAndroidDriver();
-        }
-        return appiumDriver;
-    }*/
-
     protected AppiumDriver<MobileElement> getAndroidDriver(){
         if(appiumDriver == null){
-            appiumDriver = driverThread.get().getAndroidDriver(udid, systemPort);
+            appiumDriver = driverThread.get().getAndroidDriver(udid, systemPort, platformName, platformVersion);
         }
         if(appiumDriver == null){
-            throw new RuntimeException("[ERR] Cannot establish a connection!!!");
+            throw new RuntimeException("[ERR] Cannot establish connection");
         }
         return appiumDriver;
     }
@@ -74,35 +61,37 @@ public class BaseTest {
     @AfterMethod(description = "Capture Screenshot on failure")
     public void afterMethod(ITestResult result){
         if(result.getStatus() == ITestResult.FAILURE){
-            //1. Get Test Method name
-            String methodName= result.getName();
 
-            //2. Get taken time
+            // 1. Get the test method name
+            String testMethodName = result.getName();
+
+            // 2. Get taken time
             Calendar calendar = new GregorianCalendar();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH) + 1;
-            int day = calendar.get(Calendar.DATE);
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int y = calendar.get(Calendar.YEAR);
+            int m = calendar.get(Calendar.MONTH) + 1;
+            int d = calendar.get(Calendar.DATE);
+            int hr = calendar.get(Calendar.HOUR_OF_DAY);
             int min = calendar.get(Calendar.MINUTE);
             int sec = calendar.get(Calendar.SECOND);
+            String dateTaken = y + "-" + m + "-" + d + "-" + hr + "-" + min + "-" + sec;
 
-            String dateTaken = year + "-" + month + "-" + day + "-" + hour + "-" + min + "-" + sec;
+            // 3. Location to save
+            String fileLocation =
+                    System.getProperty("user.dir") + "/screenshots/" + testMethodName + "_" + dateTaken + ".png";
 
-            //3. Location to save
-            String fileLocation = System.getProperty("user.dir") + "/screenshots/" + methodName + "_" + dateTaken + ".png";
+            // 4. save
+            File screenShot = driverThread.get().getAndroidDriver().getScreenshotAs(OutputType.FILE);
 
-            //4. Save
-            File screenshot = driverThread.get().getAndroidDriver().getScreenshotAs(OutputType.FILE);
+            try {
+                FileUtils.copyFile(screenShot, new File(fileLocation));
 
-            try{
-                FileUtils.copyFile(screenshot, new File(fileLocation));
+                // Get file content as InputStream to attach to allure
                 Path content = Paths.get(fileLocation);
                 InputStream inputStream = Files.newInputStream(content);
-                Allure.addAttachment(methodName, inputStream);
-            }catch(Exception ex){
-                ex.printStackTrace();
+                Allure.addAttachment(testMethodName, inputStream);
+            } catch (Exception e){
+                e.printStackTrace();
             }
         }
     }
 }
-

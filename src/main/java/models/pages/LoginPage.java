@@ -3,8 +3,18 @@ package models.pages;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.internal.CapabilityHelpers;
+import io.appium.java_client.pagefactory.AndroidBy;
+import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import models.components.global.BottomNavigationComponent;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.support.PageFactory;
+
+import java.time.Duration;
+import java.util.Map;
 
 public class LoginPage {
 
@@ -13,8 +23,14 @@ public class LoginPage {
     private static final By passwordSel = MobileBy.AccessibilityId("input-password");
     private static final By loginBtnSel = MobileBy.AccessibilityId("button-LOGIN");
 
+    @AndroidFindBy(id = "android:id/alertTitle")
+    @iOSXCUITFindBy(iOSNsPredicate = "label == \"Success\"")
+    private MobileElement msgTitleElem;
+
+
     public LoginPage(AppiumDriver<MobileElement> appiumDriver) {
         this.appiumDriver = appiumDriver;
+        PageFactory.initElements(new AppiumFieldDecorator(appiumDriver, Duration.ofSeconds(10)), this);
     }
 
     // Return found element(s)
@@ -34,6 +50,14 @@ public class LoginPage {
 
     public void clickOnLoginBtn(){
         appiumDriver.findElement(loginBtnSel).click();
+
+    }
+
+    public String loginMsgText(){
+        Capabilities caps = this.appiumDriver.getCapabilities();
+        String platform = CapabilityHelpers.getCapability(caps, "platformName", String.class);
+        System.out.println(platform);
+        return msgTitleElem.getText();
     }
 
     public BottomNavigationComponent bottomNavigationComponent(){

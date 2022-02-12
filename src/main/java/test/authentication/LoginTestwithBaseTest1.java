@@ -27,10 +27,10 @@ public class LoginTestwithBaseTest1 extends BaseTest {
         //Assert.fail();
     }
 
-    @Test
-    public void testMethod02(){
-        LoginPage loginPage = new LoginPage(getAndroidDriver());
-        loginPage.bottomNavigationComponent().clickOnLoginLabel();
-        //Assert.fail();
-    }
+//    @Test
+//    public void testMethod02(){
+//        LoginPage loginPage = new LoginPage(getAndroidDriver());
+//        loginPage.bottomNavigationComponent().clickOnLoginLabel();
+//        //Assert.fail();
+//    }
 }

@@ -2,17 +2,27 @@
 
 <suite name="TestBaseTest" parallel="tests" thread-count="10">
     <test name="authentication" parallel="tests" thread-count="10">
-        <parameter name="udid" value="ce081718bae29a2b047e" />
+        <parameter name="udid" value="emulator-5554" />
         <parameter name="systemPort" value="8300"/>
+        <parameter name="platformName" value="android"/>
         <classes>
             <class name="test.authentication.LoginTestwithBaseTest1" />
         </classes>
     </test>
     <test name="authentication 2" parallel="tests" thread-count="10">
-        <parameter name="udid" value="emulator-5554" />
+        <parameter name="udid" value="iPhone 11 Pro" />
         <parameter name="systemPort" value="8400"/>
-        <classes>
-            <class name="test.authentication.LoginTestwithBaseTest2" />
+        <parameter name="platformVersion" value="13.3"/>
+        <parameter name="platformName" value="ios"/>
+       <classes>
+           <class name="test.authentication.LoginTestwithBaseTest1" />
         </classes>
     </test>
+<!--    <test name="authentication 2" parallel="tests" thread-count="10">-->
+<!--        <parameter name="udid" value="emulator-5554" />-->
+<!--        <parameter name="systemPort" value="8400"/>-->
+<!--        <classes>-->
+<!--            <class name="test.authentication.LoginTestwithBaseTest2" />-->
+<!--        </classes>-->
+<!--    </test>-->
 </suite>

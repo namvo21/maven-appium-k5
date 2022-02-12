@@ -42,6 +42,8 @@ public class LoginFlow {
     }
 
     private void verifyLoginSuccess() {
+        LoginPage loginPage = new LoginPage(appiumDriver);
+        System.out.println(loginPage.loginMsgText());
     }
 
     private void verifyInvalidPasswordFormat() {
@@ -51,10 +53,10 @@ public class LoginFlow {
     }
 
     private boolean isPasswordInvalid(String password) {
-        return true;
+        return false;
     }
 
     private boolean isEmailInvalid(String username) {
-        return true;
+        return false;
     }
 }
