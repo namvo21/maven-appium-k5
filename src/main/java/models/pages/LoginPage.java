@@ -50,13 +50,12 @@ public class LoginPage {
 
     public void clickOnLoginBtn(){
         appiumDriver.findElement(loginBtnSel).click();
-
     }
 
     public String loginMsgText(){
         Capabilities caps = this.appiumDriver.getCapabilities();
         String platform = CapabilityHelpers.getCapability(caps, "platformName", String.class);
-        System.out.println(platform);
+        System.out.println("PLATFORM : " + platform);
         return msgTitleElem.getText();
     }
 

@@ -29,6 +29,20 @@ public class BaseTest {
     private String platformName;
     private String platformVersion;
 
+      // Lesson 21
+//    @BeforeTest(alwaysRun = true, description = "Init all appium sessions")
+//    @Parameters({"udid", "systemPort"})
+//    public void beforeTest(String udid, String systemPort){
+//        this.udid = udid;
+//        this.systemPort = systemPort;
+//        driverThread = ThreadLocal.withInitial(() -> {
+//            DriverFactoryEx driverThread = new DriverFactoryEx();
+//            driverThreadPool.add(driverThread);
+//            return driverThread;
+//        });
+//    }
+
+    // Lesson 22
     @BeforeTest(alwaysRun = true, description = "Init all appium sessions")
     @Parameters({"udid", "systemPort", "platformName", "platformVersion"})
     public void beforeTest(String udid, String systemPort, String platformName, @Optional("platformVersion") String platformVersion){
@@ -48,6 +62,18 @@ public class BaseTest {
         driverThread.get().quitAppiumSession();
     }
 
+    // Lesson 21
+//    protected AppiumDriver<MobileElement> getAndroidDriver() {
+//        if (appiumDriver == null) {
+//            appiumDriver = driverThread.get().getAndroidDriver(udid, systemPort);
+//        }
+//        if (appiumDriver == null) {
+//            throw new RuntimeException("[ERR] Cannot establish connection");
+//        }
+//        return appiumDriver;
+//    }
+
+    // Lesson 22
     protected AppiumDriver<MobileElement> getAndroidDriver(){
         if(appiumDriver == null){
             appiumDriver = driverThread.get().getAndroidDriver(udid, systemPort, platformName, platformVersion);

@@ -18,11 +18,13 @@
            <class name="test.authentication.LoginTestwithBaseTest1" />
         </classes>
     </test>
+
+
 <!--    <test name="authentication 2" parallel="tests" thread-count="10">-->
 <!--        <parameter name="udid" value="emulator-5554" />-->
 <!--        <parameter name="systemPort" value="8400"/>-->
 <!--        <classes>-->
-<!--            <class name="test.authentication.LoginTestwithBaseTest2" />-->
+<!--            <class name="test.authentication.LoginTestwithBaseTest1" />-->
 <!--        </classes>-->
 <!--    </test>-->
 </suite>
